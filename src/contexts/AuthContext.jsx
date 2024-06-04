@@ -31,7 +31,6 @@ function AuthContextProvider({ children }) {
       try {
         setIsLoading(true);
         const response = await apiHandler.getUser();
-
         setUser(response.data);
       } catch (error) {
         console.error(error);

@@ -6,7 +6,7 @@ function LoginPage() {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [error, setError] = useState(null);
   const { updateToken } = useContext(AuthContext);
-
+  
   function handleChange(e) {
     setLoginForm((form) => ({ ...form, [e.target.name]: e.target.value }));
   }
@@ -25,8 +25,8 @@ function LoginPage() {
   return (
     <div>
       {error && <div>{error}</div>}
-      <form method="post">
-        <label htmlFor="email" onSubmit={handleSubmit}>
+      <form method="post" onSubmit={handleSubmit}>
+        <label htmlFor="email">
           Email
           <input type="email" name="email" id="email" onChange={handleChange} />
         </label>

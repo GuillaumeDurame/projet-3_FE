@@ -4,7 +4,7 @@ import { API_BASE_URL } from "../const";
 class ApiHandler {
   constructor() {
     this.api = axios.create({
-      baseURL: API_BASE_URL
+      baseURL: API_BASE_URL,
     });
 
     this.api.interceptors.request.use(
@@ -22,7 +22,6 @@ class ApiHandler {
       }
     );
   }
-
 
   login(creadentials) {
     return this.api.post("/users/login", creadentials);

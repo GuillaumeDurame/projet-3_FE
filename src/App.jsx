@@ -8,6 +8,7 @@ import IsPublicLayout from "./components/IsPublicLayout";
 import { useContext } from "react";
 import { AuthContext } from "./contexts/AuthContext";
 import IsPrivateLayout from "./components/IsPrivateLayout";
+import SetsPage from "./pages/SetsPage";
 
 function App() {
   const { isLoading } = useContext(AuthContext);
@@ -19,6 +20,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" Component={HomePage} />
+        <Route path="/sets" Component={SetsPage} />
         <Route Component={IsPublicLayout}>
           <Route path="/login" Component={LoginPage} />
           <Route path="/signup" Component={SignupPage} />
