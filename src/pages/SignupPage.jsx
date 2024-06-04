@@ -1,4 +1,6 @@
 import { useState } from "react";
+import apiHandler from "../utils/apiHandler";
+import { useNavigate } from "react-router-dom";
 
 function SignupPage() {
   const [signupForm, setSignupForm] = useState({
@@ -7,18 +9,27 @@ function SignupPage() {
     password: "",
     description: "",
   });
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setSignupForm({ ...signupForm, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    setSignupForm({ name: "", email: "", password: "", description: "" });
-  };
+    try {
+      await apiHandler.signup(signupForm);
+
+      navigate("/login");
+    } catch (error) {
+      setError(error.message);
+    }
+  }
 
   return (
     <div>
+      {error && <div>{error}</div>}
       <form method="post" onSubmit={handleSubmit}>
         <label htmlFor="username">
           Username
