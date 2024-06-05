@@ -14,9 +14,6 @@ function UserProfilePage() {
       <h2>
         <u>Email:</u> {user.email}
       </h2>
-      <h2>
-        <u>Type:</u> {user.isAdmin ? "Admin" : "Regular User"}
-      </h2>
     </div>
   );
 }
