@@ -52,7 +52,7 @@ const UserProfilePage = () => {
         console.error(`${error}`);
       });
   };
-  console.log(wishlist);
+
   return (
     <div>
       <h1>User Profile</h1>
