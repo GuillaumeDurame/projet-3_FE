@@ -19,8 +19,8 @@ const SetsPage = () => {
         setSets(response.data.sets);
         setTotalSets(response.data.totalSets);
       })
-      .catch((error) => {
-        console.error(`${error}`);
+      .catch((err) => {
+        console.err(`${err}`);
       });
 
     apiHandler
@@ -28,31 +28,43 @@ const SetsPage = () => {
       .then((response) => {
         setWishlist(response.data);
       })
-      .catch((error) => {
-        console.error(`${error}`);
+      .catch((err) => {
+        console.err(`${err}`);
       });
   }, [currentPage]);
 
   const addToWishlist = (set) => {
-    const isInWishlist = wishlist.some(
+    const isInWishlist = wishlist?.sets.some(
       (wishlistSet) => wishlistSet._id === set._id
     );
 
     const action = isInWishlist ? "removeFromWishlist" : "addToWishlist";
 
-    apiHandler, action
-        .then(() => {
-          if (isInWishlist) {
-            setWishlist(
-              wishlist.filter((wishlistSet) => wishlistSet._id !== set._id)
-            );
-          } else {
-            setWishlist([...wishlist, set]);
-          }
-        })
-        .catch((error) => {
-          console.error(`${error}`);
-        });
+    apiHandler[action]("sets", set._id)
+      .then(() => {
+        if (isInWishlist) {
+          setWishlist({
+            ...wishlist,
+            sets: wishlist.sets.filter(
+              (wishlistSet) => wishlistSet._id !== set._id
+            ),
+          });
+        } else {
+          setWishlist({ ...wishlist, sets: [...wishlist.sets, set] });
+        }
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 404) {
+          apiHandler
+            .createWishlist({ name: "My Wishlist", description: "" })
+            .then(() => addToWishlist(set))
+            .catch((err) => {
+              console.err(`${err}`);
+            });
+        } else {
+          console.err(`${err}`);
+        }
+      });
   };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -68,7 +80,9 @@ const SetsPage = () => {
           <img src={set.img_url} alt={set.name} />
           <br />
           <button onClick={() => addToWishlist(set)}>
-            Ajouter à la liste de souhaits
+            {wishlist?.sets?.some((wishlistSet) => wishlistSet._id === set._id)
+              ? "Retirer de la liste de souhaits"
+              : "Ajouter à la liste de souhaits"}
           </button>
         </div>
       ))}
@@ -78,15 +92,6 @@ const SetsPage = () => {
         paginate={paginate}
         currentPage={currentPage}
       />
-      <h1>Liste de souhaits</h1>
-      {wishlist.map((set) => (
-        <div key={set._id}>
-          <h2>{set.name}</h2>
-          <p>Année: {set.year}</p>
-          <p>Nombre de pièces: {set.num_parts}</p>
-          <img src={set.imag_url} alt={set.name} />
-        </div>
-      ))}
     </div>
   );
 };

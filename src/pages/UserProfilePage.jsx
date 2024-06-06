@@ -4,7 +4,7 @@ import { AuthContext } from "../contexts/AuthContext";
 
 const UserProfilePage = () => {
   const { user } = useContext(AuthContext);
-  const [wishlist, setWishlist] = useState([]);
+  const [wishlist, setWishlist] = useState({});
 
   useEffect(() => {
     apiHandler
@@ -17,11 +17,25 @@ const UserProfilePage = () => {
       });
   }, []);
 
+  const createWishlist = () => {
+    apiHandler
+      .createWishlist({ userId: user._id })
+      .then(() => {
+        setWishlist([]);
+      })
+      .catch((error) => {
+        console.error(`${error}`);
+      });
+  };
+
   const removeFromWishlist = (setId) => {
     apiHandler
       .removeFromWishlist("sets", setId)
       .then(() => {
-        setWishlist(wishlist.filter((set) => set._id !== setId));
+        setWishlist({
+          ...wishlist,
+          sets: wishlist.sets.filter((set) => set._id !== setId),
+        });
       })
       .catch((error) => {
         console.error(`${error}`);
@@ -32,13 +46,13 @@ const UserProfilePage = () => {
     apiHandler
       .clearWishlist()
       .then(() => {
-        setWishlist([]);
+        setWishlist({});
       })
       .catch((error) => {
         console.error(`${error}`);
       });
   };
-
+  console.log(wishlist);
   return (
     <div>
       <h1>User Profile</h1>
@@ -49,7 +63,7 @@ const UserProfilePage = () => {
         <u>Description:</u> {user.description}
       </h2>
       <h1>My Wishlist</h1>
-      {wishlist.map((set) => (
+      {wishlist.sets?.map((set) => (
         <div key={set._id}>
           <h2>{set.name}</h2>
           <p>Year: {set.year}</p>
@@ -60,6 +74,7 @@ const UserProfilePage = () => {
           </button>
         </div>
       ))}
+      <button onClick={createWishlist}>Create Wishlist</button>
       <button onClick={clearWishlist}>Clear wishlist</button>
     </div>
   );

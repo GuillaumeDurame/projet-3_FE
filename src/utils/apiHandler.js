@@ -36,9 +36,9 @@ class ApiHandler {
   }
 
   addToWishlist(elementCollection, elementId) {
-    return this.api.put("/whishlist", { elementCollection, elementId });
+    return this.api.put("/wishlist/add", { elementCollection, elementId });
   }
-  
+
   getWishlist() {
     return this.api.get("/wishlist");
   }
@@ -49,6 +49,10 @@ class ApiHandler {
 
   clearWishlist() {
     return this.api.delete("/wishlist/all");
+  }
+
+  createWishlist(data) {
+    return this.api.post("/wishlist", data);
   }
 }
 
