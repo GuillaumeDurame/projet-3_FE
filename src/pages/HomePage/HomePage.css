@@ -1,0 +1,21 @@
+.home {
+  text-align: center;
+  border: solid;
+  border-radius: 15px;
+  border-color: blue;
+  padding-right: 5vw;
+  padding-left: 5vw;
+  padding-bottom: 4vh;
+}
+.accessUser {
+  padding-bottom: 2vw;
+}
+
+.signUp, .login, .profile, .sets {
+  color: white;
+  margin-right: 2vw;
+  border: solid;
+  border-color: blue;
+  border-radius: 5px;
+  background-color: blue;
+}

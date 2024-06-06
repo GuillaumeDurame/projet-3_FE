@@ -34,6 +34,22 @@ class ApiHandler {
   getUser() {
     return this.api.get("/users/me");
   }
+
+  addToWishlist(elementCollection, elementId) {
+    return this.api.put("/whishlist", { elementCollection, elementId });
+  }
+  
+  getWishlist() {
+    return this.api.get("/wishlist");
+  }
+
+  removeFromWishlist(elementCollection, elementId) {
+    return this.api.put("/wishlist/remove", { elementCollection, elementId });
+  }
+
+  clearWishlist() {
+    return this.api.delete("/wishlist/all");
+  }
 }
 
 const apiHandler = new ApiHandler();

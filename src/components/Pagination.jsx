@@ -1,25 +1,29 @@
 const Pagination = ({ setsPerPage, totalSets, paginate, currentPage }) => {
-    const pageNumbers = [];
-  
-    for (let i = 1; i <= Math.ceil(totalSets / setsPerPage); i++) {
-      pageNumbers.push(i);
-    }
-  
-    return (
-      <nav>
-        <ul className="pagination">
-          <li className="page-item">
-            <a onClick={() => currentPage > 1 && paginate(currentPage - 1)} href="#" className="page-link">
-              Précédent
-            </a>
-          </li>
-          <li className="page-item">
-            <a onClick={() => currentPage < pageNumbers.length && paginate(currentPage + 1)} href="" className="page-link">
-              Suivant
-            </a>
-          </li>
-        </ul>
-      </nav>
-    );
-  };
+  const lastPage = Math.ceil(totalSets / setsPerPage);
+
+  return (
+    <nav>
+      <ul className="pagination">
+        <li className="page-item">
+          <button
+            onClick={() => currentPage > 1 && paginate(currentPage - 1)}
+            className="page-link"
+          >
+            Précédent
+          </button>
+        </li>
+        <li className="page-item">
+          <button
+            onClick={() =>
+              currentPage < lastPage && paginate(currentPage + 1)
+            }
+            className="page-link"
+          >
+            Suivant
+          </button>
+        </li>
+      </ul>
+    </nav>
+  );
+};
 export default Pagination;
